@@ -1,12 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
+import { Title } from '../../pages';
 
 const Form = styled.form`
   input {
     display: block;
   }
 `;
+
+const tagValues = {
+  brand: ['GUCCI', 'BOTTEGA VENETA', 'LOUIS VUITTON', 'CHANEL'],
+  type: ['가방', '의류'],
+};
 
 const ProductForm = React.memo(({ onSubmit }) => {
   const { register, handleSubmit } = useForm();
@@ -25,7 +31,26 @@ const ProductForm = React.memo(({ onSubmit }) => {
         placeholder="제품 상세 설명 (필수!)"
         {...register('description', { required: true })}
       ></textarea>
-      <input placeholder="태그" {...register('tags', { required: false })} />
+      <Title>브랜드</Title>
+      <select {...register('brand')}>
+        {tagValues.brand.map((item) => {
+          return (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          );
+        })}
+      </select>
+      <Title>카테고리</Title>
+      <select {...register('type')}>
+        {tagValues.type.map((item) => {
+          return (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          );
+        })}
+      </select>
       {/* 제품 썸네일 사진 */}
       <input
         type="file"

@@ -15,8 +15,9 @@ const Container = styled.div``;
 const ProductWrap = styled.div`
   padding: 20px;
 `;
-const Title = styled.strong`
+export const Title = styled.strong`
   font-size: 20px;
+  display: block;
 `;
 
 const AdminPage = () => {
@@ -60,6 +61,12 @@ const AdminPage = () => {
   const onSubmit = async (data) => {
     data.thumbnailBase64 = await imgToBase64(data.thumbnailBase64);
     data.photoBase64 = await imgToBase64(data.photoBase64);
+    data.tags = [];
+
+    data.tags.push(data['brand']);
+    data.tags.push(data['type']);
+    delete data['brand'];
+    delete data['type'];
 
     const newData = await addProduct(true, data);
     setProductList([...productList, newData]);
