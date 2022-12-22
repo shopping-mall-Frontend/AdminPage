@@ -1,30 +1,87 @@
-import React from 'react';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { getProductDetail } from '../../utils/useAPI';
+import { ProductDetail } from './ProductDetail';
 
-const ProductItem = ({ item }) => {
+const ProductItem = React.memo(({ item, deleteItem }) => {
+  const [product, setProduct] = useState([]);
+  const [toggle, setToggle] = useState(false);
+
+  const getProductDetails = async (id) => {
+    const newProduct = await getProductDetail(id);
+    setProduct(newProduct);
+  };
+
+  const showProductDetail = async () => {
+    await getProductDetails(item.id);
+    setToggle(true);
+  };
+
   return (
-    <li>
-      <span>제품 이름: {item.title}</span>
-      <span>제품 가격: {item.price}</span>
-      <span>제품 상세 설명: {item.description}</span>
-      <span>제품 태그: {item.tags}</span>
-      {item.thumbnail ? (
-        <span>
-          제품 썸네일: <img alt="상품 이미지" src={item.thumbnail} />
-        </span>
+    <>
+      <ProductLi key={item.id}>
+        <ItemHeaderDiv>
+          <button
+            onClick={() => {
+              deleteItem(item.id);
+            }}
+          >
+            삭제하기
+          </button>
+          <button
+            onClick={() => {
+              showProductDetail();
+            }}
+          >
+            상세정보 보기
+          </button>
+        </ItemHeaderDiv>
+        <ItemInfoDiv>
+          <span>{item.tags[0]}</span>
+          <span>{item.title}</span>
+          <span>{item.price}원</span>
+        </ItemInfoDiv>
+        {item.thumbnail ? (
+          <ItemImgDiv>
+            <img alt="상품 이미지" src={item.thumbnail} />
+          </ItemImgDiv>
+        ) : (
+          ''
+        )}
+      </ProductLi>
+      {toggle ? (
+        <ProductDetail item={product} toggle={toggle} setToggle={setToggle} />
       ) : (
         ''
       )}
-      {item.photo ? (
-        <span>
-          제품 상세 이미지:
-          <img alt="상품 상세 이미지" src={item.photo} />
-        </span>
-      ) : (
-        ''
-      )}
-      <span>매진 여부: {item.isSoldOut ? 'O' : 'X'}</span>
-    </li>
+    </>
   );
-};
+});
 
+const ProductLi = styled.li`
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid red;
+  margin-bottom: 20px;
+  padding: 25px;
+`;
+
+const ItemImgDiv = styled.div`
+  display: flex;
+  height: 100px;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const ItemInfoDiv = styled.div``;
+
+const ItemHeaderDiv = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+`;
 export { ProductItem };

@@ -1,5 +1,5 @@
 const { REACT_APP_API_KEY, REACT_APP_USERNAME } = process.env;
-const requestUrl = 'api';
+const requestUrl = 'https://asia-northeast3-heropy-api.cloudfunctions.net/api';
 
 const headers = {
   Accept: 'application/json',
@@ -26,7 +26,6 @@ export const signIn = async (value) => {
       }),
     });
     const json = await data.json();
-    // console.log(json);
     return json;
   } catch (err) {
     console.log(err);
@@ -139,4 +138,20 @@ export const deleteProduct = async (key, id) => {
     console.log(err);
   }
   return true;
+};
+
+// 제품 상세 조회
+export const getProductDetail = async (id) => {
+  try {
+    headers.masterKey = true;
+    const data = await fetch(`${requestUrl}/products/${id}`, {
+      method: 'GET',
+      headers,
+    });
+    const json = await data.json();
+    console.log(json);
+    return json;
+  } catch (err) {
+    console.log(err);
+  }
 };

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Login } from '../components/Login';
 import { auth } from '../utils/useAPI';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div``;
 const logoutButtonHandle = () => {
@@ -11,16 +11,17 @@ const logoutButtonHandle = () => {
 };
 
 const LoginPage = () => {
-  const navigate = useNavigate();
+  const history = useNavigate();
   const [user, setUser] = useState(false);
   useEffect(() => {
     const authUser = async () => {
       const userInfo = await auth();
       setUser(userInfo);
+      if (userInfo) {
+        history('/admin');
+      }
     };
     authUser();
-    console.log(user);
-
     return;
   }, []);
 

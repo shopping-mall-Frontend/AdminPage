@@ -8,6 +8,7 @@ import {
   deleteProduct,
   getAllProduct,
 } from '../utils/useAPI';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div``;
 
@@ -19,21 +20,26 @@ const Title = styled.strong`
 `;
 
 const AdminPage = () => {
+  const history = useNavigate();
   const [user, setUser] = useState({});
   const [productList, setProductList] = useState([]);
   const [formToggle, setFormToggle] = useState(false);
   useEffect(() => {
+    const getUser = async () => {
+      const user = await auth();
+      setUser(user);
+      if (Object.keys(user).length == 0) {
+        alert('로그인을 먼저 해주세요!');
+        history('/admin/login');
+      }
+    };
+    getUser();
     const getState = async () => {
       const products = await getAllProduct(true);
       setProductList(products);
     };
     getState();
-    getUser();
   }, []);
-
-  const getUser = async () => {
-    setUser(await auth());
-  };
 
   const imgToBase64 = async (files) => {
     if (files.length > 0) {

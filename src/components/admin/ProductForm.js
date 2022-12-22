@@ -8,7 +8,7 @@ const Form = styled.form`
   }
 `;
 
-const ProductForm = ({ onSubmit }) => {
+const ProductForm = React.memo(({ onSubmit }) => {
   const { register, handleSubmit } = useForm();
 
   return (
@@ -36,6 +36,6 @@ const ProductForm = ({ onSubmit }) => {
       <button type="submit">완료</button>
     </Form>
   );
-};
+});
 
 export { ProductForm };

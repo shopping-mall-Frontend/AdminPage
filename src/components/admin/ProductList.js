@@ -4,9 +4,6 @@ import styled from 'styled-components';
 
 const ProductUl = styled.ul`
   padding: 20px;
-  li {
-    padding: 10px;
-  }
   span {
     display: block;
   }
@@ -15,7 +12,8 @@ const Title = styled.strong`
   font-size: 20px;
 `;
 
-const ProductList = ({ productList, deleteItem }) => {
+const ProductList = React.memo(({ productList, deleteItem }) => {
+  console.log('List');
   return (
     <ProductUl>
       <Title>현재 제품 리스트</Title>
@@ -23,20 +21,11 @@ const ProductList = ({ productList, deleteItem }) => {
         <p>등록한 제품이 없습니다!</p>
       ) : (
         productList.map((item) => (
-          <div key={item.id}>
-            <button
-              onClick={() => {
-                deleteItem(item.id);
-              }}
-            >
-              삭제하기
-            </button>
-            <ProductItem item={item} />
-          </div>
+          <ProductItem key={item.id} item={item} deleteItem={deleteItem} />
         ))
       )}
     </ProductUl>
   );
-};
+});
 
 export { ProductList };
