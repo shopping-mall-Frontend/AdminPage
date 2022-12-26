@@ -155,3 +155,25 @@ export const getProductDetail = async (id) => {
     console.log(err);
   }
 };
+
+// 제품 수정하기
+export const editProduct = async (key, id, list) => {
+  try {
+    list.price = parseInt(list.price, 10);
+    if (!list.thumbnail) delete list.thumbnail;
+    if (!list.photo) delete list.photo;
+    if (key) {
+      headers.masterKey = true;
+      const data = await fetch(`${requestUrl}/products/${id}`, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify(list),
+      });
+      const json = await data.json();
+      console.log(json);
+      return json;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
