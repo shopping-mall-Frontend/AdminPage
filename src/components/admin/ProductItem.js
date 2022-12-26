@@ -69,7 +69,7 @@ const ProductItem = React.memo(
               <ItemInfoDiv>
                 <span>{item.tags[0]}</span>
                 <span>{item.title}</span>
-                <span>{item.price}원</span>
+                <span>{item.price.toLocaleString()}원</span>
               </ItemInfoDiv>
               {item.thumbnail ? (
                 <ItemImgDiv>
@@ -97,8 +97,9 @@ const ProductLi = styled.li`
   justify-content: space-between;
   align-items: center;
   border: 2px solid red;
-  margin-bottom: 20px;
+  margin: 20px;
   padding: 25px;
+  width: 40vw;
 `;
 
 const ItemImgDiv = styled.div`
@@ -110,7 +111,15 @@ const ItemImgDiv = styled.div`
   }
 `;
 
-const ItemInfoDiv = styled.div``;
+const ItemInfoDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  span {
+    display: block;
+    padding: 5px;
+  }
+`;
 
 const ItemHeaderDiv = styled.div`
   position: absolute;
