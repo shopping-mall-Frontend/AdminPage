@@ -2,13 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Header } from '../components/Header';
 import { ProductForm, ProductList } from '../components/admin';
-import {
-  addProduct,
-  auth,
-  deleteProduct,
-  editProduct,
-  getAllProduct,
-} from '../utils/useAPI';
+import { addProduct, auth, deleteProduct, editProduct, getAllProduct } from '../utils/useAPI';
 import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div``;
@@ -44,45 +38,6 @@ const AdminPage = () => {
     getState();
   }, []);
 
-  // const imgToBase64 = async (files) => {
-  //   if (!files) return '';
-  //   if (files.length === 1) {
-  //     const file = files[0];
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(file);
-
-  //     return new Promise((resolve) => {
-  //       reader.onload = () => {
-  //         resolve(reader.result);
-  //       };
-  //     });
-  //   } else {
-  //     return '';
-  //   }
-  // };
-
-  // const onSubmit = async (data) => {
-  //   console.log(data);
-  //   data.thumbnailBase64 = await imgToBase64(data.thumbnailBase64);
-  //   data.photoBase64 = await imgToBase64(data.photoBase64);
-  //   data.tags = [];
-
-  //   data.tags.push(data['brand']);
-  //   data.tags.push(data['type']);
-  //   delete data['brand'];
-  //   delete data['type'];
-  //   let newData;
-  //   if (isEdit) {
-  //     console.log(data);
-  //     //newData = await editProduct();
-  //   } else {
-  //     newData = await addProduct(true, data);
-  //   }
-  //   setProductList([...productList, newData]);
-  //   setFormToggle(false);
-  //   setIsEdit(false);
-  // };
-
   const deleteItem = async (id) => {
     await deleteProduct(true, id);
     setProductList(productList.filter((item) => item.id !== id));
@@ -101,19 +56,11 @@ const AdminPage = () => {
           제품 추가하기
         </button>
         {formToggle ? (
-          <ProductForm
-            productList={productList}
-            setProductList={setProductList}
-            setFormToggle={setFormToggle}
-          />
+          <ProductForm productList={productList} setProductList={setProductList} setFormToggle={setFormToggle} />
         ) : (
           ''
         )}
-        <ProductList
-          productList={productList}
-          setProductList={setProductList}
-          deleteItem={deleteItem}
-        />
+        <ProductList productList={productList} setProductList={setProductList} deleteItem={deleteItem} />
       </ProductWrap>
     </Container>
   );
