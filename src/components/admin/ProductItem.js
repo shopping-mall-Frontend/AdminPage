@@ -4,92 +4,86 @@ import { getProductDetail } from '../../utils/useAPI';
 import { ProductDetail } from './ProductDetail';
 import { ProductForm } from './ProductForm';
 
-const ProductItem = React.memo(
-  ({ item, deleteItem, productList, setProductList }) => {
-    const [product, setProduct] = useState([]);
-    const [toggle, setToggle] = useState(false);
-    const [editToggle, setEditToggle] = useState(false);
+const ProductItem = React.memo(({ item, deleteItem, productList, setProductList }) => {
+  const [product, setProduct] = useState([]);
+  const [toggle, setToggle] = useState(false);
+  const [editToggle, setEditToggle] = useState(false);
 
-    const getProductDetails = async (id) => {
-      const newProduct = await getProductDetail(id);
-      setProduct(newProduct);
-    };
+  const getProductDetails = async (id) => {
+    const newProduct = await getProductDetail(id);
+    setProduct(newProduct);
+  };
 
-    const showProductDetail = async () => {
+  const showProductDetail = async () => {
+    await getProductDetails(item.id);
+    setToggle(true);
+  };
+
+  const editProductHandler = async () => {
+    if (product.length === 0) {
       await getProductDetails(item.id);
-      setToggle(true);
-    };
-
-    const editProductHandler = async () => {
-      if (product.length === 0) {
-        await getProductDetails(item.id);
-      }
-      if (!editToggle) {
-        setEditToggle(true);
-      } else {
-        setEditToggle(false);
-      }
-    };
-    return (
-      <>
-        <ProductLi key={item.id}>
-          <ItemHeaderDiv>
-            <button
-              onClick={() => {
-                deleteItem(item.id);
-              }}
-            >
-              삭제하기
-            </button>
-            <button
-              onClick={() => {
-                showProductDetail();
-              }}
-            >
-              상세정보 보기
-            </button>
-            <button
-              onClick={() => {
-                editProductHandler();
-              }}
-            >
-              {editToggle ? '닫기' : '수정하기'}
-            </button>
-          </ItemHeaderDiv>
-          {editToggle ? (
-            <ProductForm
-              list={product}
-              editToggle={editToggle}
-              setEditToggle={setEditToggle}
-              productList={productList}
-              setProductList={setProductList}
-            />
-          ) : (
-            <>
-              <ItemInfoDiv>
-                <span>{item.tags[0]}</span>
-                <span>{item.title}</span>
-                <span>{item.price.toLocaleString()}원</span>
-              </ItemInfoDiv>
-              {item.thumbnail ? (
-                <ItemImgDiv>
-                  <img alt="상품 이미지" src={item.thumbnail} />
-                </ItemImgDiv>
-              ) : (
-                ''
-              )}
-            </>
-          )}
-        </ProductLi>
-        {toggle ? (
-          <ProductDetail item={product} toggle={toggle} setToggle={setToggle} />
+    }
+    if (!editToggle) {
+      setEditToggle(true);
+    } else {
+      setEditToggle(false);
+    }
+  };
+  return (
+    <>
+      <ProductLi key={item.id}>
+        <ItemHeaderDiv>
+          <button
+            onClick={() => {
+              deleteItem(item.id);
+            }}
+          >
+            삭제하기
+          </button>
+          <button
+            onClick={() => {
+              showProductDetail();
+            }}
+          >
+            상세정보 보기
+          </button>
+          <button
+            onClick={() => {
+              editProductHandler();
+            }}
+          >
+            {editToggle ? '닫기' : '수정하기'}
+          </button>
+        </ItemHeaderDiv>
+        {editToggle ? (
+          <ProductForm
+            list={product}
+            editToggle={editToggle}
+            setEditToggle={setEditToggle}
+            productList={productList}
+            setProductList={setProductList}
+          />
         ) : (
-          ''
+          <>
+            <ItemInfoDiv>
+              <span>{item.tags[0]}</span>
+              <span>{item.title}</span>
+              <span>{item.price.toLocaleString()}$</span>
+            </ItemInfoDiv>
+            {item.thumbnail ? (
+              <ItemImgDiv>
+                <img alt="상품 이미지" src={item.thumbnail} />
+              </ItemImgDiv>
+            ) : (
+              ''
+            )}
+          </>
         )}
-      </>
-    );
-  }
-);
+      </ProductLi>
+      {toggle ? <ProductDetail item={product} toggle={toggle} setToggle={setToggle} /> : ''}
+    </>
+  );
+});
 
 const ProductLi = styled.li`
   position: relative;

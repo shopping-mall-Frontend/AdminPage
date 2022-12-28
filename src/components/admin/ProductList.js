@@ -45,45 +45,43 @@ const Page = ({ page, maxPage, setPage }) => {
   );
 };
 
-const ProductList = React.memo(
-  ({ productList, setProductList, deleteItem }) => {
-    const [limit, setLimit] = useState(5);
-    const [page, setPage] = useState(1);
-    const [count, setCount] = useState(1);
-    const maxPage = Math.ceil(productList.length / limit);
+const ProductList = React.memo(({ productList, setProductList, deleteItem }) => {
+  const [limit, setLimit] = useState(5);
+  const [page, setPage] = useState(1);
+  const [count, setCount] = useState(0);
+  const maxPage = Math.ceil(productList.length / limit);
 
-    useEffect(() => {
-      setCount((page - 1) * limit + 1);
-    }, [page]);
+  useEffect(() => {
+    setCount((page - 1) * limit);
+  }, [page]);
 
-    return (
-      <ProductUl>
-        <Title>현재 제품 리스트</Title>
-        등록된 제품 총 개수: {productList.length}
-        <p>page: {page} </p>
-        <div>
-          <Page page={page} maxPage={maxPage} setPage={setPage} />
-        </div>
-        <div>
-          {productList.length === 0 ? (
-            <p>등록한 제품이 없습니다!</p>
-          ) : (
-            productList.slice(count, count + limit).map((item) => {
-              return (
-                <ProductItem
-                  key={item.id}
-                  item={item}
-                  deleteItem={deleteItem}
-                  productList={productList}
-                  setProductList={setProductList}
-                />
-              );
-            })
-          )}
-        </div>
-      </ProductUl>
-    );
-  }
-);
+  return (
+    <ProductUl>
+      <Title>현재 제품 리스트</Title>
+      등록된 제품 총 개수: {productList.length}
+      <p>page: {page} </p>
+      <div>
+        <Page page={page} maxPage={maxPage} setPage={setPage} />
+      </div>
+      <div>
+        {productList.length === 0 ? (
+          <p>등록한 제품이 없습니다!</p>
+        ) : (
+          productList.slice(count, count + limit).map((item) => {
+            return (
+              <ProductItem
+                key={item.id}
+                item={item}
+                deleteItem={deleteItem}
+                productList={productList}
+                setProductList={setProductList}
+              />
+            );
+          })
+        )}
+      </div>
+    </ProductUl>
+  );
+});
 
 export { ProductList };
