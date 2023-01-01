@@ -3,11 +3,6 @@ import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { addProduct, editProduct } from '../../utils/useAPI';
 
-const Title = styled.strong`
-  font-size: 20px;
-  display: block;
-`;
-
 const tagValues = {
   brand: ['GUCCI', 'BOTTEGA VENETA', 'LOUIS VUITTON', 'CHANEL'],
   type: ['가방', '의류'],
@@ -74,6 +69,14 @@ const ProductForm = React.memo(({ list, setProductList, productList, editToggle,
         <input placeholder="제품 이름 (필수!)" {...register('title', { required: true })} />
         <input placeholder="제품 가격 (필수!)" {...register('price', { required: true })} />
         <textarea placeholder="제품 상세 설명 (필수!)" {...register('description', { required: true })}></textarea>
+        {editToggle ? (
+          <div>
+            <label htmlFor="soldout">매진 처리하기</label>
+            <input id="soldout" type="checkbox" {...register('isSoldOut', { required: false })} />
+          </div>
+        ) : (
+          ''
+        )}
         <Title>브랜드</Title>
         <select {...register('brand')}>
           {tagValues.brand.map((item) => {
@@ -110,6 +113,11 @@ const Form = styled.form`
   input {
     display: block;
   }
+`;
+
+const Title = styled.strong`
+  font-size: 20px;
+  display: block;
 `;
 
 export { ProductForm };
