@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ProductForm, ProductList } from '../components/admin';
 import { deleteProduct, getAllProduct } from '../utils/useAPI';
-import { useNavigate } from 'react-router-dom';
 
 const ProductPage = () => {
-  const history = useNavigate();
   const [productList, setProductList] = useState([]);
   const [formToggle, setFormToggle] = useState(false);
 

@@ -22,8 +22,9 @@ const ProductList = React.memo(({ productList, setProductList, deleteItem }) => 
         <TableHeader>
           <p>이미지</p>
           <div className="info-wrap">
-            <p>브랜드</p>
-            <p>타이틀</p>
+            <p>매진 여부</p>
+            <p className="brand">브랜드</p>
+            <p className="title">타이틀</p>
             <p>가격</p>
           </div>
           <p className="option">도구</p>
@@ -72,7 +73,7 @@ const Title = styled.strong`
 `;
 
 const TableHeader = styled.li`
-  width: calc(80% - 15px);
+  width: 100%;
   position: relative;
   padding: 5px;
   display: flex;
@@ -80,24 +81,26 @@ const TableHeader = styled.li`
   align-items: center;
   border-bottom: 1px solid gray;
   .info-wrap {
-    width: 60%;
+    width: 65%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: nowrap;
     p {
+      width: 10%;
       white-space: nowrap;
       display: block;
-      padding: 0 10px;
+    }
+    .brand {
+      width: 20%;
     }
     .title {
-      overflow: hidden;
-      text-overflow: ellipsis;
+      width: 40%;
     }
   }
   .option {
     display: block;
-    width: 27%;
+    width: 20%;
   }
 `;
 

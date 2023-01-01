@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Header } from '../components/Header';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { auth } from '../utils/useAPI';
 
 const AdminPage = () => {
   const [user, setUser] = useState({});
+  const history = useNavigate();
   useEffect(() => {
     const getUser = async () => {
-      const user = await auth();
+      const newUser = await auth();
       setUser(user);
-      if (Object.keys(user).length == 0) {
+      if (!newUser) {
         alert('로그인을 먼저 해주세요!');
         history('/admin/login');
       }

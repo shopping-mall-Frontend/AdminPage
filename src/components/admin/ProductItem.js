@@ -50,7 +50,8 @@ const ProductItem = React.memo(({ item, deleteItem, productList, setProductList 
               '이미지 없음'
             )}
             <div className="info-wrap">
-              <p>[{item.tags[0]}]</p>
+              {item.isSoldOut ? <p>O</p> : <p>X</p>}
+              <p className="brand">[{item.tags[0]}]</p>
               <p className="title">{item.title}</p>
               <p>{item.price.toLocaleString()}$</p>
             </div>
@@ -86,7 +87,7 @@ const ProductItem = React.memo(({ item, deleteItem, productList, setProductList 
 });
 
 const ProductLi = styled.li`
-  width: calc(80% - 15px);
+  width: 100%;
   position: relative;
   padding: 5px;
   display: flex;
@@ -100,11 +101,15 @@ const ProductLi = styled.li`
     justify-content: space-between;
     flex-wrap: nowrap;
     p {
-      padding: 10px;
+      width: 10%;
       white-space: nowrap;
       display: block;
     }
+    .brand {
+      width: 40%;
+    }
     .title {
+      width: 60%;
       overflow: hidden;
       text-overflow: ellipsis;
     }
