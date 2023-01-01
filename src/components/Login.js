@@ -25,12 +25,12 @@ const Login = (props) => {
   // react hook form 사용해보기(렌더링 비용 최소화)
   const { register, handleSubmit } = useForm();
   const onSubmit = async (data) => {
-    const { accessToken, user } = await signIn(data);
+    const { user } = await signIn(data);
+    console.log(user);
     setLoginInfo(data);
     if (!user) {
       alert('이메일 혹은 비밀번호가 일치하지 않습니다.');
-    } else {
-      sessionStorage.setItem('accessToken', accessToken);
+    } else if (user.displayName) {
       alert(`hello, ${user.displayName}!!`);
       history('/admin');
     }
@@ -41,17 +41,9 @@ const Login = (props) => {
       Login
       <LoginForm onSubmit={handleSubmit(onSubmit)}>
         ID
-        <input
-          type="email"
-          placeholder="Email ID"
-          {...register('email', { required: true })}
-        />
+        <input type="email" placeholder="Email ID" {...register('email', { required: true })} />
         password
-        <input
-          type="password"
-          placeholder="Password"
-          {...register('password', { required: true })}
-        />
+        <input type="password" placeholder="Password" {...register('password', { required: true })} />
         <button>로그인!</button>
       </LoginForm>
     </Container>

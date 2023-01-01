@@ -17,7 +17,7 @@ const LoginPage = () => {
     const authUser = async () => {
       const userInfo = await auth();
       setUser(userInfo);
-      if (userInfo) {
+      if (userInfo.displayName) {
         history('/admin');
       }
     };
@@ -29,7 +29,7 @@ const LoginPage = () => {
     <Container>
       <Header user={user} />
       This is Main Page
-      {user ? (
+      {user.displayName ? (
         <div>
           <p> 현재 사용자: {user.displayName} </p>
           <button
