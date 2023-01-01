@@ -48,7 +48,6 @@ const ProductUl = styled.ul`
   display: flex;
   justify-content: space-between;
   background-color: white;
-  border: 2px solid red;
   margin: 0 auto;
   padding: 25px;
   overflow: scroll;

@@ -1,56 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { ProductItem } from './ProductItem';
 import styled from 'styled-components';
-
-const ProductUl = styled.ul`
-  padding: 20px;
-  span {
-    display: block;
-  }
-  div {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-  }
-`;
-
-const Title = styled.strong`
-  font-size: 20px;
-  display: block;
-`;
-
-const Page = ({ page, maxPage, setPage }) => {
-  const limit = 3;
-  const [pageIndex, setPageIndex] = useState(limit);
-  useEffect(() => {}, [page]);
-  return (
-    <div>
-      <button onClick={() => setPage(1)}>Fir</button>
-      <button onClick={() => setPage(page - 1)} disabled={page === 1}>
-        ◀
-      </button>
-      {Array(limit)
-        .fill()
-        .map((data, i) => (
-          <button
-            key={page + i}
-            onClick={() => setPage(page + i)}
-            aria-current={page === page + i ? 'page' : null}
-            disabled={page + i > maxPage}
-          >
-            {page + i}
-          </button>
-        ))}
-      <button onClick={() => setPage(page + 1)} disabled={page === maxPage}>
-        ▶
-      </button>
-      <button onClick={() => setPage(maxPage)}>End</button>
-    </div>
-  );
-};
+import Page from '../Page';
 
 const ProductList = React.memo(({ productList, setProductList, deleteItem }) => {
-  const [limit, setLimit] = useState(5);
+  const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
   const maxPage = Math.ceil(productList.length / limit);
@@ -65,9 +19,15 @@ const ProductList = React.memo(({ productList, setProductList, deleteItem }) => 
       등록된 제품 총 개수: {productList.length}
       <p>page: {page} </p>
       <div>
-        <Page page={page} maxPage={maxPage} setPage={setPage} />
-      </div>
-      <div>
+        <TableHeader>
+          <p>이미지</p>
+          <div className="info-wrap">
+            <p>브랜드</p>
+            <p>타이틀</p>
+            <p>가격</p>
+          </div>
+          <p className="option">도구</p>
+        </TableHeader>
         {productList.length === 0 ? (
           <p>등록한 제품이 없습니다!</p>
         ) : (
@@ -84,8 +44,61 @@ const ProductList = React.memo(({ productList, setProductList, deleteItem }) => 
           })
         )}
       </div>
+      <div className="page-wrap">
+        <Page page={page} maxPage={maxPage} setPage={setPage} />
+      </div>
     </ProductUl>
   );
 });
+
+const ProductUl = styled.ul`
+  padding: 20px;
+  span {
+    display: block;
+  }
+  div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  .page-wrap {
+    margin: 20px 0;
+  }
+`;
+
+const Title = styled.strong`
+  font-size: 20px;
+  display: block;
+`;
+
+const TableHeader = styled.li`
+  width: calc(80% - 15px);
+  position: relative;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid gray;
+  .info-wrap {
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    p {
+      white-space: nowrap;
+      display: block;
+      padding: 0 10px;
+    }
+    .title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .option {
+    display: block;
+    width: 27%;
+  }
+`;
 
 export { ProductList };

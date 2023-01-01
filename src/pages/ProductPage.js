@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Header } from '../components/Header';
 import { ProductForm, ProductList } from '../components/admin';
-import { addProduct, auth, deleteProduct, editProduct, getAllProduct } from '../utils/useAPI';
+import { deleteProduct, getAllProduct } from '../utils/useAPI';
 import { useNavigate } from 'react-router-dom';
 
 const ProductPage = () => {
@@ -11,15 +10,6 @@ const ProductPage = () => {
   const [formToggle, setFormToggle] = useState(false);
 
   useEffect(() => {
-    const getUser = async () => {
-      const user = await auth();
-      setUser(user);
-      if (Object.keys(user).length == 0) {
-        alert('로그인을 먼저 해주세요!');
-        history('/admin/login');
-      }
-    };
-    getUser();
     const getState = async () => {
       const products = await getAllProduct(true);
       setProductList(products);
@@ -34,7 +24,6 @@ const ProductPage = () => {
   return (
     <Container>
       <ProductWrap>
-        <Title>제품</Title>
         <button
           onClick={() => {
             setFormToggle(!formToggle);
