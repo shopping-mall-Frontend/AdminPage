@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ProductItem } from './ProductItem';
 import styled from 'styled-components';
-import { Title } from '../../pages';
 
 const ProductUl = styled.ul`
   padding: 20px;
@@ -13,6 +12,11 @@ const ProductUl = styled.ul`
     flex-wrap: wrap;
     justify-content: space-around;
   }
+`;
+
+const Title = styled.strong`
+  font-size: 20px;
+  display: block;
 `;
 
 const Page = ({ page, maxPage, setPage }) => {
